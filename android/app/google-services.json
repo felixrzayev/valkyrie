@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1036868899332",
+    "firebase_url": "https://valkyrie-dd59a-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "valkyrie-dd59a",
+    "storage_bucket": "valkyrie-dd59a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1036868899332:android:667d4b8e5f43ecff8b1b51",
+        "android_client_info": {
+          "package_name": "com.example.valkyrie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1036868899332-9kiemgh548q5423ols7ecqt18e6i5a8t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.valkyrie",
+            "certificate_hash": "842f541879e493ed414e5f7f96dbf859ed332db7"
+          }
+        },
+        {
+          "client_id": "1036868899332-2jbe2ik1coijkaujovovm384okurunfs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp8_yd-0hraoRVRTmQboBL5QjHgidj6zM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1036868899332-2jbe2ik1coijkaujovovm384okurunfs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

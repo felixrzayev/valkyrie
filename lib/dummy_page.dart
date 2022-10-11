@@ -1,0 +1,164 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:valkyrie/elements/dropdown_team_selector.dart';
+import 'package:valkyrie/elements/match_display.dart';
+import 'package:valkyrie/services/device_info.dart';
+import 'package:valkyrie/services/json_manager.dart';
+import 'package:valkyrie/services/storage_manager.dart';
+import 'package:valkyrie/services/theme_manager.dart';
+
+import 'in_app_browser_page.dart';
+import 'services/json_parser_model.dart';
+
+class GamesPage extends StatefulWidget {
+  @override
+  State<GamesPage> createState() => _GamesPageState();
+}
+
+class _GamesPageState extends State<GamesPage> {
+  @override
+  void initState() {
+    context.read<DataManager>().readJson;
+    // DeviceInfo.getEmulatorInfo().then(
+    //   (value) => print("Is it real phone ? $value"),
+    // );
+    // DeviceInfo.getPhoneInfo().then(
+    //   (value) => print("Is it other than Google ? $value"),
+    // );
+    // DeviceInfo.getSimInfo().then(
+    //   (value) => print("Does phone have sim card ? $value"),
+    // );
+    super.initState();
+  }
+
+  bool _isOn = true;
+
+  void toggle() {
+    setState(() => _isOn = !_isOn);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Premier League'),
+        actions: [
+          Switch(
+            value: _isOn,
+            activeTrackColor: Colors.white,
+            activeColor: Colors.blue[800],
+            onChanged: (value) {
+              toggle();
+              _isOn
+                  ? context.read<ThemeNotifier>().setLightMode()
+                  : context.read<ThemeNotifier>().setDarkMode();
+            },
+          )
+        ],
+      ),
+      body: buildBody(context),
+    );
+  }
+
+  //----------------------------------------------------------------------------
+
+  Widget buildBody(BuildContext context) {
+    final dataProvider = Provider.of<DataManager>(context, listen: true);
+    final matchesNew = dataProvider.matches;
+    final uniqueTeamsNew = dataProvider.uniqueTeams;
+    final selectedHomeTeam = dataProvider.homeTeam;
+    final selectedAwayTeam = dataProvider.awayTeam;
+    return Column(
+      children: [
+        // _urlButton(context, _links),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              buildHomeTeamSelector(
+                uniqueTeams: uniqueTeamsNew,
+                onChange: dataProvider.selectHomeTeam,
+                selectedTeam: selectedHomeTeam,
+              ),
+              const SizedBox(width: 5),
+              buildAwayTeamSelector(
+                uniqueTeams: uniqueTeamsNew,
+                onChange: dataProvider.selectAwayTeam,
+                selectedTeam: selectedAwayTeam,
+              ),
+              buildResetButton(() {
+                dataProvider.resetMatches();
+              }),
+            ],
+          ),
+        ),
+        buildListView(matchesNew),
+      ],
+    );
+  }
+
+  //----------------------------------------------------------------------------
+
+  Widget buildListView(List<Matches> matches) {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: matches.length,
+        itemBuilder: (context, index) => MatchDisplay(matches[index]),
+      ),
+    );
+  }
+
+  //----------------------------------------------------------------------------
+
+  Widget buildHomeTeamSelector({
+    required List<String> uniqueTeams,
+    required onChange,
+    required String? selectedTeam,
+  }) =>
+      DropdownTeamSelector(
+        uniqueTeams: uniqueTeams,
+        onChangedTeam: onChange,
+        hint: 'Home',
+        selectedTeam: selectedTeam,
+      );
+
+  Widget buildAwayTeamSelector({
+    required List<String> uniqueTeams,
+    required onChange,
+    required String? selectedTeam,
+  }) =>
+      DropdownTeamSelector(
+        uniqueTeams: uniqueTeams,
+        onChangedTeam: onChange,
+        hint: 'Away',
+        selectedTeam: selectedTeam,
+      );
+
+  Widget buildResetButton(Function onPressed) {
+    return IconButton(
+      onPressed: () => onPressed(),
+      icon: const Icon(Icons.restart_alt_outlined),
+    );
+  }
+
+  //----------------------------------------------------------------------------
+
+  Widget _urlButton(BuildContext context, String url) {
+    return Container(
+      padding: const EdgeInsets.all(20.0),
+      child: TextButton(
+          child: Text(url),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => InAppBrowserPage(
+                  url: url,
+                ),
+              ),
+            );
+          }),
+    );
+  }
+}
