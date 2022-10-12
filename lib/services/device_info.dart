@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:mobile_number/mobile_number.dart';
+import 'package:flutter_sim_country_code/flutter_sim_country_code.dart';
 
 class DeviceInfo {
   static final _deviceInfoPlugin = DeviceInfoPlugin();
@@ -18,8 +18,9 @@ class DeviceInfo {
 
   // sim
   static Future<bool> getSimInfo() async {
-    var _simCard = await MobileNumber.getSimCards!;
-    if (_simCard.isNotEmpty) {
+    var simCard = await FlutterSimCountryCode.simCountryCode ?? "";
+
+    if (simCard.isNotEmpty) {
       return Future<bool>.value(true);
     }
     return Future<bool>.value(false);

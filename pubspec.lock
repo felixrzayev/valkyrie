@@ -216,6 +216,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  flutter_sim_country_code:
+    dependency: "direct main"
+    description:
+      name: flutter_sim_country_code
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -282,13 +289,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
-  mobile_number:
-    dependency: "direct main"
-    description:
-      name: mobile_number
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.1"
   nested:
     dependency: transitive
     description:
