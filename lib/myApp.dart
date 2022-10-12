@@ -83,11 +83,8 @@ class _MyAppState extends State<MyApp> {
   //----------------------------------------------------------------------------
 
   Widget buildLoading() {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-      ),
-      body: const Center(
+    return const Scaffold(
+      body: Center(
         child: CircularProgressIndicator(),
       ),
     );
