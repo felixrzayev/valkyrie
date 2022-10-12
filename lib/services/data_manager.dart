@@ -1,13 +1,12 @@
 import 'dart:convert';
 
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:valkyrie/services/json_parser_model.dart';
+import 'package:http/http.dart' as http;
 
-class DataManager with ChangeNotifier {
+class DataNotifier with ChangeNotifier {
   Games _games = Games();
   List<Matches> _matches = [];
-  String? _url;
   String? _homeTeam;
   String? _awayTeam;
   List<String> _uniqueTeams = [];
@@ -19,15 +18,13 @@ class DataManager with ChangeNotifier {
   List<Matches> get matches => _matches;
   List<String> get uniqueTeams => _uniqueTeams;
 
-  String? get url => _url;
-
   Future<void> _readJson() async {
-    // final String response = await rootBundle.loadString('assets/en.json');
-    // final data = await json.decode(response);
-
-    final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
-    var rawData = remoteConfig.getAll()['en'];
-    final data = await json.decode(rawData!.asString());
+    // usually FirebaseDatabase.instance is used to connect to the RealTime Database
+    final Uri url = Uri.parse(
+      'https://valkyrie-dd59a-default-rtdb.europe-west1.firebasedatabase.app/salam.json',
+    );
+    final response = await http.get(url);
+    final data = await json.decode(response.body);
 
     _games = Games.fromJson(data);
     _matches = _games.matches!;

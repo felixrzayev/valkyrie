@@ -6,19 +6,6 @@ import 'package:mobile_number/mobile_number.dart';
 class DeviceInfo {
   static final _deviceInfoPlugin = DeviceInfoPlugin();
 
-  static Future<bool> getPhoneInfo() async {
-    // manufacturer
-    if (Platform.isAndroid) {
-      final info = await _deviceInfoPlugin.androidInfo;
-      if (info.manufacturer!.contains("google")) {
-        return Future<bool>.value(true);
-      }
-      return Future<bool>.value(false);
-    } else {
-      return Future<bool>.value(false);
-    }
-  }
-
   static Future<String> getBrandDevice() async {
     // manufacturer
     if (Platform.isAndroid) {

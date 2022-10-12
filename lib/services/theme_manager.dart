@@ -24,12 +24,12 @@ class ThemeNotifier with ChangeNotifier {
 
   ThemeNotifier() {
     StorageManager.readData('themeMode').then((value) {
-      print('value read from storage: ' + value.toString());
+      debugPrint('value read from storage: $value');
       var themeMode = value ?? 'light';
       if (themeMode == 'light') {
         _themeData = lightTheme;
       } else {
-        print('setting dark theme');
+        debugPrint('setting dark theme');
         _themeData = darkTheme;
       }
       notifyListeners();

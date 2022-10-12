@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageManager {
@@ -10,7 +11,7 @@ class StorageManager {
     } else if (value is bool) {
       prefs.setBool(key, value);
     } else {
-      print("Invalid Type");
+      debugPrint("Invalid Type");
     }
   }
 
@@ -23,11 +24,5 @@ class StorageManager {
   static Future<bool> deleteData(String key) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.remove(key);
-  }
-
-  static Future<String?> getString(String key) async {
-    final prefs = await SharedPreferences.getInstance();
-    dynamic obj = prefs.get(key);
-    return obj;
   }
 }

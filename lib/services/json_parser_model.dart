@@ -5,17 +5,14 @@ Games gamesFromJson(String str) => Games.fromJson(json.decode(str));
 class Games {
   Games({
     this.name,
-    this.url,
     this.matches,
   });
 
   String? name;
-  dynamic url;
   List<Matches>? matches;
 
   factory Games.fromJson(Map<String, dynamic> json) => Games(
         name: json["name"],
-        url: json["url"],
         matches:
             List<Matches>.from(json["matches"].map((x) => Matches.fromJson(x))),
       );

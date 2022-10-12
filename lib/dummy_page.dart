@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:valkyrie/elements/dropdown_team_selector.dart';
 import 'package:valkyrie/elements/match_display.dart';
-import 'package:valkyrie/services/device_info.dart';
-import 'package:valkyrie/services/json_manager.dart';
-import 'package:valkyrie/services/storage_manager.dart';
+import 'package:valkyrie/services/data_manager.dart';
 import 'package:valkyrie/services/theme_manager.dart';
 
-import 'in_app_browser_page.dart';
 import 'services/json_parser_model.dart';
 
 class GamesPage extends StatefulWidget {
@@ -19,16 +15,7 @@ class GamesPage extends StatefulWidget {
 class _GamesPageState extends State<GamesPage> {
   @override
   void initState() {
-    context.read<DataManager>().readJson;
-    // DeviceInfo.getEmulatorInfo().then(
-    //   (value) => print("Is it real phone ? $value"),
-    // );
-    // DeviceInfo.getPhoneInfo().then(
-    //   (value) => print("Is it other than Google ? $value"),
-    // );
-    // DeviceInfo.getSimInfo().then(
-    //   (value) => print("Does phone have sim card ? $value"),
-    // );
+    context.read<DataNotifier>().readJson;
     super.initState();
   }
 
@@ -54,7 +41,7 @@ class _GamesPageState extends State<GamesPage> {
                   ? context.read<ThemeNotifier>().setLightMode()
                   : context.read<ThemeNotifier>().setDarkMode();
             },
-          )
+          ),
         ],
       ),
       body: buildBody(context),
@@ -64,14 +51,13 @@ class _GamesPageState extends State<GamesPage> {
   //----------------------------------------------------------------------------
 
   Widget buildBody(BuildContext context) {
-    final dataProvider = Provider.of<DataManager>(context, listen: true);
+    final dataProvider = Provider.of<DataNotifier>(context, listen: true);
     final matchesNew = dataProvider.matches;
     final uniqueTeamsNew = dataProvider.uniqueTeams;
     final selectedHomeTeam = dataProvider.homeTeam;
     final selectedAwayTeam = dataProvider.awayTeam;
     return Column(
       children: [
-        // _urlButton(context, _links),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -139,26 +125,6 @@ class _GamesPageState extends State<GamesPage> {
     return IconButton(
       onPressed: () => onPressed(),
       icon: const Icon(Icons.restart_alt_outlined),
-    );
-  }
-
-  //----------------------------------------------------------------------------
-
-  Widget _urlButton(BuildContext context, String url) {
-    return Container(
-      padding: const EdgeInsets.all(20.0),
-      child: TextButton(
-          child: Text(url),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => InAppBrowserPage(
-                  url: url,
-                ),
-              ),
-            );
-          }),
     );
   }
 }
